@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Comparison Animation</title>
+    <title>Image Comparison Animation (4 Stages - Virtual Bicubic)</title>
     <style>
         body, html {
             margin: 0;
@@ -12,7 +12,6 @@
             height: 100%;
             background-color: #000;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            /* Prevent layout shifts from scrollbars appearing/disappearing */
             scrollbar-gutter: stable;
             overflow: hidden;
         }
@@ -21,7 +20,7 @@
             position: relative;
             width: 100vw;
             height: 100vh;
-            overflow: auto; /* Single scrollbar for the whole view */
+            overflow: auto;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -45,23 +44,45 @@
             user-select: none;
         }
 
-        /* The Improved image is stacked on top of the Original */
-        .improved-wrapper {
+        /* Base setup: Stage 3 (Original) or Stage 4 (Improved) usually define the dimensions */
+        .layer {
             position: absolute;
             top: 0;
             left: 0;
-            z-index: 2;
+            width: 100%;
+            height: 100%;
             opacity: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .original-wrapper {
+        .improved-wrapper { z-index: 4; }
+        .original-wrapper { z-index: 3; }
+        .bicubic-wrapper  { z-index: 2; }
+        
+        /* The "Natural" LQ layer at the bottom */
+        .lq-natural-wrapper {
             position: relative;
             z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* We need to ensure this has the same dimensions as the high-res images 
+               to avoid layout jumps, so we'll set its size via JS after load */
+        }
+
+        /* Bicubic upscale uses the same LQ image but stretched */
+        .bicubic-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            image-rendering: auto; /* Browser's default bicubic-like interpolation */
         }
 
         /* Labels */
         .label {
-            position: fixed; /* Keep labels visible regardless of scroll */
+            position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
@@ -79,33 +100,25 @@
             opacity: 0;
         }
 
-        /* Animation classes */
-        .animate-fade {
-            animation: toggleOpacity 5s infinite;
-        }
-        .animate-label-orig {
-            animation: toggleLabelOriginal 5s infinite;
-        }
-        .animate-label-impr {
-            animation: toggleLabelImproved 5s infinite;
-        }
+        /* Animations for 4-stage cycle (8s total) */
+        .animate-fade-improved { animation: fadeStage4 8s infinite; }
+        .animate-fade-original { animation: fadeStage3 8s infinite; }
+        .animate-fade-bicubic  { animation: fadeStage2 8s infinite; }
+        
+        .animate-label-lq      { animation: labelStage1 8s infinite; }
+        .animate-label-bicubic { animation: labelStage2 8s infinite; }
+        .animate-label-orig    { animation: labelStage3 8s infinite; }
+        .animate-label-impr    { animation: labelStage4 8s infinite; }
 
-        @keyframes toggleOpacity {
-            0%, 45% { opacity: 0; }
-            55%, 100% { opacity: 1; }
-        }
+        @keyframes fadeStage4 { 0%, 73% { opacity: 0; } 75%, 100% { opacity: 1; } }
+        @keyframes fadeStage3 { 0%, 48% { opacity: 0; } 50%, 100% { opacity: 1; } }
+        @keyframes fadeStage2 { 0%, 23% { opacity: 0; } 25%, 100% { opacity: 1; } }
 
-        @keyframes toggleLabelOriginal {
-            0%, 45% { opacity: 1; }
-            50%, 100% { opacity: 0; }
-        }
+        @keyframes labelStage1 { 0%, 23% { opacity: 1; } 25%, 100% { opacity: 0; } }
+        @keyframes labelStage2 { 0%, 23% { opacity: 0; } 25%, 48% { opacity: 1; } 50%, 100% { opacity: 0; } }
+        @keyframes labelStage3 { 0%, 48% { opacity: 0; } 50%, 73% { opacity: 1; } 75%, 100% { opacity: 0; } }
+        @keyframes labelStage4 { 0%, 73% { opacity: 0; } 75%, 100% { opacity: 1; } }
 
-        @keyframes toggleLabelImproved {
-            0%, 50% { opacity: 0; }
-            55%, 100% { opacity: 1; }
-        }
-
-        /* Info Overlay */
         #info {
             position: fixed;
             top: 20px;
@@ -124,66 +137,87 @@
 </head>
 <body>
 
-    <div id="info">Always starting with Original • New pair every 5s</div>
+    <div id="info">Cycle: LQ Natural → Bicubic Upscale → Original → Improved • 8s</div>
 
     <div id="comparison-container">
+        <div id="label-lq" class="label animate-label-lq">Mažos raiškos</div>
+        <div id="label-bicubic" class="label animate-label-bicubic">Bikubinė interpoliacija</div>
         <div id="label-original" class="label animate-label-orig">Originali</div>
         <div id="label-improved" class="label animate-label-impr">Eksperimento</div>
 
-        <div class="image-stack">
-            <!-- The Improved image (top layer) -->
-            <div id="improved-wrapper" class="improved-wrapper animate-fade">
+        <div class="image-stack" id="image-stack">
+            <!-- Stage 4: Improved -->
+            <div id="improved-wrapper" class="layer improved-wrapper animate-fade-improved">
                 <img id="img-improved" src="" alt="Improved">
             </div>
 
-            <!-- The Original image (bottom layer) -->
-            <div class="original-wrapper">
+            <!-- Stage 3: Original -->
+            <div id="original-wrapper" class="layer original-wrapper animate-fade-original">
                 <img id="img-original" src="" alt="Original">
+            </div>
+
+            <!-- Stage 2: Bicubic (Stretched LQ) -->
+            <div id="bicubic-wrapper" class="layer bicubic-wrapper animate-fade-bicubic">
+                <img id="img-bicubic" src="" alt="Bicubic">
+            </div>
+
+            <!-- Stage 1: LQ Natural (Base) -->
+            <div id="lq-natural-wrapper" class="lq-natural-wrapper">
+                <img id="img-lq" src="" alt="LQ Natural">
             </div>
         </div>
     </div>
 
     <script>
+        const imgLq = document.getElementById('img-lq');
+        const imgBicubic = document.getElementById('img-bicubic');
         const imgOriginal = document.getElementById('img-original');
         const imgImproved = document.getElementById('img-improved');
+        
         const improvedWrapper = document.getElementById('improved-wrapper');
+        const originalWrapper = document.getElementById('original-wrapper');
+        const bicubicWrapper = document.getElementById('bicubic-wrapper');
+        const lqNaturalWrapper = document.getElementById('lq-natural-wrapper');
+        const imageStack = document.getElementById('image-stack');
+        
+        const labelLq = document.getElementById('label-lq');
+        const labelBicubic = document.getElementById('label-bicubic');
         const labelOrig = document.getElementById('label-original');
         const labelImpr = document.getElementById('label-improved');
+        
         const info = document.getElementById('info');
         const container = document.getElementById('comparison-container');
 
-        // List of image indices to show. Comment out any line to skip that image.
-        const IMAGE_SEQUENCE = [
-            4,
-            3,
-            17,
-            22,
-            9,
-            19,
-            41,
-            38
-        ];
-
-        let sequenceIndex = -1; 
+        const IMAGE_SEQUENCE = [4, 3, 17, 22, 9, 19, 5, 13];
+        let sequenceIndex = -1;
+        let manualState = null; 
 
         function getImagePath(type, imageNum) {
             const paddedIndex = String(imageNum).padStart(3, '0');
-            const folder = type === 'original' ? 'original-realsr-sharper' : 'improved-realsr-sharper';
+            const folder = type === 'original' ? 'original-realsr-sharper' : 
+                          (type === 'improved' ? 'improved-realsr-sharper' : 'lq');
             return `images/${folder}/Canon_${paddedIndex}.png`;
         }
 
-        function restartAnimations() {
-            improvedWrapper.style.opacity = '';
-            labelOrig.style.opacity = '';
-            labelImpr.style.opacity = '';
+        const animClasses = [
+            'animate-fade-improved', 'animate-fade-original', 'animate-fade-bicubic',
+            'animate-label-lq', 'animate-label-bicubic', 'animate-label-orig', 'animate-label-impr'
+        ];
 
-            improvedWrapper.classList.remove('animate-fade');
-            labelOrig.classList.remove('animate-label-orig');
-            labelImpr.classList.remove('animate-label-impr');
+        function restartAnimations() {
+            manualState = null;
+            [improvedWrapper, originalWrapper, bicubicWrapper, labelLq, labelBicubic, labelOrig, labelImpr].forEach(el => el.style.opacity = '');
+            [improvedWrapper, originalWrapper, bicubicWrapper, labelLq, labelBicubic, labelOrig, labelImpr].forEach(el => {
+                animClasses.forEach(c => el.classList.remove(c));
+            });
             
             void improvedWrapper.offsetWidth;
             
-            improvedWrapper.classList.add('animate-fade');
+            improvedWrapper.classList.add('animate-fade-improved');
+            originalWrapper.classList.add('animate-fade-original');
+            bicubicWrapper.classList.add('animate-fade-bicubic');
+            labelLq.classList.add('animate-label-lq');
+            labelBicubic.classList.add('animate-label-bicubic');
             labelOrig.classList.add('animate-label-orig');
             labelImpr.classList.add('animate-label-impr');
         }
@@ -197,21 +231,36 @@
             info.textContent = `Showing pair: Canon_${String(currentImageNum).padStart(3, '0')} (Slideshow Paused)`;
         }
 
-        function setManualFlip(type) {
+        function setManualFlip(state) {
             stopSlideshow();
+            manualState = state;
             
-            improvedWrapper.classList.remove('animate-fade');
-            labelOrig.classList.remove('animate-label-orig');
-            labelImpr.classList.remove('animate-label-impr');
+            [improvedWrapper, originalWrapper, bicubicWrapper, labelLq, labelBicubic, labelOrig, labelImpr].forEach(el => {
+                animClasses.forEach(c => el.classList.remove(c));
+            });
 
-            if (type === 'improved') {
+            improvedWrapper.style.opacity = '0';
+            originalWrapper.style.opacity = '0';
+            bicubicWrapper.style.opacity = '0';
+            labelLq.style.opacity = '0';
+            labelBicubic.style.opacity = '0';
+            labelOrig.style.opacity = '0';
+            labelImpr.style.opacity = '0';
+
+            if (state === 'improved') {
                 improvedWrapper.style.opacity = '1';
-                labelOrig.style.opacity = '0';
+                originalWrapper.style.opacity = '1';
+                bicubicWrapper.style.opacity = '1';
                 labelImpr.style.opacity = '1';
-            } else {
-                improvedWrapper.style.opacity = '0';
+            } else if (state === 'original') {
+                originalWrapper.style.opacity = '1';
+                bicubicWrapper.style.opacity = '1';
                 labelOrig.style.opacity = '1';
-                labelImpr.style.opacity = '0';
+            } else if (state === 'bicubic') {
+                bicubicWrapper.style.opacity = '1';
+                labelBicubic.style.opacity = '1';
+            } else {
+                labelLq.style.opacity = '1';
             }
         }
 
@@ -219,26 +268,44 @@
             sequenceIndex = (sequenceIndex + 1) % IMAGE_SEQUENCE.length;
             const imageNum = IMAGE_SEQUENCE[sequenceIndex];
             
-            const origSrc = getImagePath('original', imageNum);
-            const imprSrc = getImagePath('improved', imageNum);
+            const paths = {
+                lq: getImagePath('lq', imageNum),
+                original: getImagePath('original', imageNum),
+                improved: getImagePath('improved', imageNum)
+            };
             
             const preload = (src) => new Promise(resolve => {
                 const img = new Image();
-                img.onload = () => resolve(src);
-                img.onerror = () => resolve(src); // Continue anyway on error
+                img.onload = () => resolve(img);
+                img.onerror = () => resolve(null);
                 img.src = src;
             });
 
-            await Promise.all([preload(origSrc), preload(imprSrc)]);
+            const [lqImg, origImg, imprImg] = await Promise.all([
+                preload(paths.lq),
+                preload(paths.original),
+                preload(paths.improved)
+            ]);
 
-            imgOriginal.src = origSrc;
-            imgImproved.src = imprSrc;
+            // Set the container size based on the Original/Improved image
+            const targetWidth = origImg ? origImg.width : (imprImg ? imprImg.width : 0);
+            const targetHeight = origImg ? origImg.height : (imprImg ? imprImg.height : 0);
+            
+            if (targetWidth > 0) {
+                lqNaturalWrapper.style.width = targetWidth + 'px';
+                lqNaturalWrapper.style.height = targetHeight + 'px';
+            }
+
+            imgLq.src = paths.lq;
+            imgBicubic.src = paths.lq; // Same source, different CSS
+            imgOriginal.src = paths.original;
+            imgImproved.src = paths.improved;
             
             container.scrollTo(0, 0);
             restartAnimations();
             
             const status = slideshowInterval ? '' : ' (Slideshow Paused)';
-            info.textContent = `Showing pair: Canon_${String(imageNum).padStart(3, '0')}${status} (Arrows: ←→ to skip, ↑↓ to flip)`;
+            info.textContent = `Showing pair: Canon_${String(imageNum).padStart(3, '0')}${status} (Arrows: ←→ skip, ↑↓ cycle versions)`;
         }
 
         updateImages();
@@ -246,7 +313,7 @@
         let slideshowInterval;
         function startSlideshow() {
             if (slideshowInterval) clearInterval(slideshowInterval);
-            slideshowInterval = setInterval(updateImages, 5000);
+            slideshowInterval = setInterval(updateImages, 8000);
         }
 
         function navigate(direction) {
@@ -263,8 +330,15 @@
         window.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight') navigate('next');
             else if (e.key === 'ArrowLeft') navigate('prev');
-            else if (e.key === 'ArrowUp') setManualFlip('improved');
-            else if (e.key === 'ArrowDown') setManualFlip('original');
+            else if (e.key === 'ArrowUp') {
+                if (!manualState || manualState === 'lq') setManualFlip('bicubic');
+                else if (manualState === 'bicubic') setManualFlip('original');
+                else if (manualState === 'original') setManualFlip('improved');
+            } else if (e.key === 'ArrowDown') {
+                if (!manualState || manualState === 'improved') setManualFlip('original');
+                else if (manualState === 'original') setManualFlip('bicubic');
+                else if (manualState === 'bicubic') setManualFlip('lq');
+            }
         });
 
         startSlideshow();
