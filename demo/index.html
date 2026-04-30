@@ -141,7 +141,7 @@
 
     <div id="comparison-container">
         <div id="label-lq" class="label animate-label-lq">Mažos raiškos</div>
-        <div id="label-bicubic" class="label animate-label-bicubic">Padidinta</div>
+        <div id="label-bicubic" class="label animate-label-bicubic">Padidinta interpoliuojant</div>
         <div id="label-original" class="label animate-label-orig">Originali autorių</div>
         <div id="label-improved" class="label animate-label-impr">Eksperimento</div>
 
@@ -228,7 +228,7 @@
                 slideshowInterval = null;
             }
             const currentImageNum = IMAGE_SEQUENCE[sequenceIndex];
-            info.textContent = `Showing pair: Canon_${String(currentImageNum).padStart(3, '0')} (Slideshow Paused)`;
+            info.textContent = `Canon_${String(currentImageNum).padStart(3, '0')} (Prezentacija sustabdyta) (Rodyklės: ←→ praleisti, ↑↓ peržiūrėti variantus)`;
         }
 
         function setManualFlip(state) {
@@ -305,7 +305,7 @@
             restartAnimations();
             
             const status = slideshowInterval ? '' : ' (Slideshow Paused)';
-            info.textContent = `Showing pair: Canon_${String(imageNum).padStart(3, '0')}${status} (Arrows: ←→ skip, ↑↓ cycle versions)`;
+            info.textContent = `Canon_${String(imageNum).padStart(3, '0')}${status} (Rodyklės: ←→ praleisti, ↑↓ peržiūrėti variantus)`;
         }
 
         updateImages();
