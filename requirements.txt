@@ -1,0 +1,13 @@
+einops
+torch
+basicsr
+h5py
+matplotlib
+pyiqa
+lpips
+tensorboard
+torchmetrics
+torchmetrics[image]
+scikit-learn
+seaborn
+umap-learn
