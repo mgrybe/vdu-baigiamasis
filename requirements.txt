@@ -1,6 +1,6 @@
 einops
 torch
-basicsr
+#basicsr
 h5py
 matplotlib
 pyiqa
