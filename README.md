@@ -10,30 +10,45 @@ Vytauto Didžiojo universitetas) programinis kodas ir tyrimų duomenys.
 ## Santrauka
 
 > Šiame magistro darbe nagrinėjamas suvokiamos kokybės optimizavimas vieno vaizdo raiškos didinimo (SISR) uždaviniuose.
-> Darbo tikslas - ištirti ir pritaikyti modernius giliųjų neuroninių tinklų apmokymo metodus, įgalinančius pasiekti aukštą
-> vaizdo tikroviškumą. Atlikus literatūros analizę, bazine architektūra pasirinktas hibridinis dėmesio transformeris(HAT).
-> Dėl savo gebėjimo efektyviai modeliuoti globalų vaizdo kontekstą ir į rekonstrukcijos procesą įtraukti didesnį pikselių
+> Darbo tikslas - ištirti ir pritaikyti modernius giliųjų neuroninių tinklų apmokymo metodus, įgalinančius pasiekti
+> aukštą
+> vaizdo tikroviškumą. Atlikus literatūros analizę, bazine architektūra pasirinktas hibridinis dėmesio transformeris(
+> HAT).
+> Dėl savo gebėjimo efektyviai modeliuoti globalų vaizdo kontekstą ir į rekonstrukcijos procesą įtraukti didesnį
+> pikselių
 > kiekį, šis modelis demonstravo aukščiausią rekonstrukcijos tikslumą (vertinant pagal PSNR ir SSIM metrikas) bei
 > subjektyvią vizualinę kokybę. Tyrimo metu buvo eksperimentuojama su įvairiais nuostolių funkcijų deriniais. Nustatyta,
 > kad tradicinis pikselių lygmens nuostolis (L1) sukelia vaizdų susiliejimą, todėl jį naudinga pakeisti AESOP
 > autoenkoderiu grįsta funkcija, atskiriančia struktūrinį tikslumą nuo natūralios tekstūrų variacijos. Eksperimentų
-> rezultatai parodė, kad optimaliausią suvokimo ir iškraipymo kompromisą užtikrina AESOP turinio ir UNET priešpriešinio (
+> rezultatai parodė, kad optimaliausią suvokimo ir iškraipymo kompromisą užtikrina AESOP turinio ir UNET
+> priešpriešinio (
 > GAN) nuostolių derinys. Pritaikius šį subalansuotą nuostolių funkcijų derinį HAT tinklui ir apmokius modelį su
 > sudėtingomis realaus pasaulio vaizdų degradacijomis, pavyko reikšmingai pagerinti vizualinę kokybę: vaizdų ryškumas (
 > pagal Laplaso dispersiją) padidėjo 35,57%, o natūralumas (pagal NIQE metriką) pagerėjo 4,34%, nesukuriant dirbtinių
 > artefaktų.
 
-## Architektūra ir Metodika
+## Pagrindiniai eksperimentai
 
-Projektas remiasi **hibridiniu dėmesio transformeriu (HAT)**, kurį sudaro išplėstiniai moduliai:
+| Eksperimentas           | Nuoroda                                                                                                                                                                        |
+|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1. RealHATGAN           | [![Atidaryti „Google Colab“](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1a-WJEwcxvwT7SMlxyIVb9Zduoc62bD5r?usp=sharing) |
+| 2. RealHATGAN (sharper) | [![Atidaryti „Google Colab“](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1IaO6IhEAneunY1RzbUW4dZG2gD6yaUCV?usp=sharing) |
 
-- **Kanalo dėmesio sutelkimo blokas (CAB)** – suteikiantis modeliui galimybę išnaudoti globalią informaciją.
-- **Langu grįstas vietinis dėmesys (HAB)** – efektyviam lokalių priklausomybių modeliavimui.
-- **Persidengiantis kryžminio dėmesio mechanizmas (OCA)** – pagerinantis informacijos sklidimą tarp atskirų langų.
+## Apmokyti modeliai
 
-Modelio apmokymui naudota kombinuota tikslo funkcija, kurios svoriai optimizuoti siekiant išvengti gradientų
-disbalanso ($L_{bendra}=0,1*L_{AESOP}+0,1*L_{VGG19}+0,1*L_{UNET}$). Implementacija sukurta
-naudojant [BasicSR](https://github.com/XPixelGroup/BasicSR) karkasą.
+### Originalūs modeliai
+
+| Modelis              | Atsisiuntimas                                                                                                                                                                                            |
+|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| RealHATGAN           | [![Google Drive](https://img.shields.io/badge/Google%20Drive-Atsisiųsti-4285F4?logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1uons4FS73XQL8t6T1VJ-wykPf4Yjl6rP/view?usp=drive_link) |
+| RealHATGAN (sharper) | [![Google Drive](https://img.shields.io/badge/Google%20Drive-Atsisiųsti-4285F4?logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1-vASh0nZbMS9mERQ7TrYRB8Vl_3Gn0DH/view?usp=drive_link) |
+
+### Pagerinti modeliai
+
+| Modelis              | Atsisiuntimas                                                                                                                                                                                            |
+|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| RealHATGAN           | [![Google Drive](https://img.shields.io/badge/Google%20Drive-Atsisiųsti-4285F4?logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1XND7V-lGQVjsLoMr-MyyjqoaT4KBpiGA/view?usp=drive_link) |
+| RealHATGAN (sharper) | [![Google Drive](https://img.shields.io/badge/Google%20Drive-Atsisiųsti-4285F4?logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1_7cCJbA8ZvKf2spF8g2KYFSXIMqL4ywG/view?usp=drive_link) |
 
 ## Projekto struktūra
 
