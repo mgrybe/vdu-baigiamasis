@@ -2,28 +2,41 @@
 
 [![Demo](https://img.shields.io/badge/Demo-Gyvai-brightgreen)](https://mgrybe.github.io/vdu-baigiamasis/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub](https://img.shields.io/badge/GitHub-HAT-181717?logo=github&logoColor=white)](https://github.com/xpixelgroup/hat)
+[![GitHub](https://img.shields.io/badge/GitHub-AESOP-181717?logo=github&logoColor=white)](https://github.com/2minkyulee/AESOP-SR)
 
 Šioje repozitorijoje pateikiamas magistro baigiamojo darbo **„Suvokiamos kokybės optimizavimas vieno vaizdo raiškos
-didinimo uždaviniuose, integruojant HAT architektūrą bei kombinuotas nuostolių funkcijas“** (autorius Marius Grybė,
+didinimo uždaviniuose, integruojant HAT  architektūrą bei kombinuotas nuostolių funkcijas“** (autorius Marius Grybė,
 Vytauto Didžiojo universitetas) programinis kodas ir tyrimų duomenys.
 
 ## Santrauka
 
 > Šiame magistro darbe nagrinėjamas suvokiamos kokybės optimizavimas vieno vaizdo raiškos didinimo (SISR) uždaviniuose.
-> Darbo tikslas - ištirti ir pritaikyti modernius giliųjų neuroninių tinklų apmokymo metodus, įgalinančius pasiekti aukštą
+> Darbo tikslas - ištirti ir pritaikyti modernius giliųjų neuroninių tinklų apmokymo metodus, įgalinančius pasiekti
+> aukštą
 > vaizdo tikroviškumą. Atlikus literatūros analizę, bazine architektūra pasirinktas hibridinis dėmesio transformeris (
 > HAT). Dėl savo gebėjimo efektyviai modeliuoti globalų vaizdo kontekstą ir į rekonstrukcijos procesą įtraukti didesnį
-> pikselių kiekį, šis modelis demonstravo aukščiausią rekonstrukcijos tikslumą (vertinant pagal PSNR ir SSIM metrikas) bei
+> pikselių kiekį, šis modelis demonstravo aukščiausią rekonstrukcijos tikslumą (vertinant pagal PSNR ir SSIM metrikas)
+> bei
 > subjektyvią vizualinę kokybę. Tyrimo metu buvo eksperimentuojama su įvairiais nuostolių funkcijų deriniais. Nustatyta,
 > kad tradicinis pikselių lygmens nuostolis (L1) sukelia vaizdų susiliejimą, todėl jį naudinga pakeisti AESOP
 > autoenkoderiu grįsta funkcija, atskiriančia struktūrinį tikslumą nuo natūralios tekstūrų variacijos. Eksperimentų
-> rezultatai parodė, kad optimaliausią suvokimo ir iškraipymo kompromisą užtikrina AESOP turinio ir UNET priešpriešinio (
+> rezultatai parodė, kad optimaliausią suvokimo ir iškraipymo kompromisą užtikrina AESOP turinio ir UNET
+> priešpriešinio (
 > GAN) nuostolių derinys. Pritaikius šį subalansuotą nuostolių funkcijų derinį HAT tinklui ir apmokius modelį su
 > sudėtingomis realaus pasaulio vaizdų degradacijomis, pavyko reikšmingai pagerinti vizualinę kokybę: vaizdų ryškumas (
 > pagal Laplaso dispersiją) padidėjo 35,57%, o natūralumas (pagal NIQE metriką) pagerėjo 4,34%, nesukuriant dirbtinių
 > artefaktų. Vis dėlto tyrimas atskleidė esminį vertinimo metrikų apribojimą: nepaisant pasiektų vizualinių pagerinimų,
 > suvokiamosios kokybės metrikos (LPIPS ir DISTS) šiuos pokyčius fiksavo silpnai. Tai rodo minėtų metrikų ribotumą
 > vertinant subtilius fotorealistiškumo pokyčius.
+
+## Rezultatai
+
+Žemiau pateikiamas originalaus HAT metodo ir eksperimento metu patobulinto „RealHATGAN (sharper)“ modelio rezultatų palyginimas.
+
+![Canon 017](demo/images/comparison/Canon_017.png)
+![Canon 005](demo/images/comparison/Canon_005.png)
+![Canon 036](demo/images/comparison/Canon_036.png)
 
 ## Pagrindiniai eksperimentai
 
