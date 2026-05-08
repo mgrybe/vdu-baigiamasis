@@ -75,7 +75,7 @@ Vytauto Didžiojo universitetas) programinis kodas ir tyrimų duomenys.
 
 ## Projekto struktūra
 
-- `src/method/`: Pagrindinė modelių, architektūrų, nuostolių funkcijų ir metrikų realizacija.
+- `method/`: Pagrindinė modelių, architektūrų, nuostolių funkcijų ir metrikų realizacija.
     - `models/`: Aukšto lygio modelių logika (RealHATGAN, AESOP integracijos, MoE variantai).
     - `archs/`: Tinklų architektūros (HAT, DRCT, SwinIR).
     - `losses/`: Specifinės nuostolių funkcijos (AESOP, GAN nuostoliai).
@@ -84,6 +84,14 @@ Vytauto Didžiojo universitetas) programinis kodas ir tyrimų duomenys.
 - `data/`: Eksperimentų rezultatai ir žurnalai (metrikos, apmokymo kreivės).
 - `papers/`: Susiję moksliniai straipsniai ir jų metaduomenys.
 - `demo/`: Projekto demonstracinio puslapio resursai.
+
+## Aplinkos paruošimas
+
+```bash
+pyenv local 3.12.13 
+python -m venv .venv
+pip install -r requirements.txt
+```
 
 ## Literatūra
 
