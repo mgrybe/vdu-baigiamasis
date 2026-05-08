@@ -59,11 +59,11 @@ palyginimas.
 
 ### Naudoti modeliai
 
-| Modelis                  | Atsisiųsti                                                                                                                                                                                               |
-|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| HATx4 (ImagNet pretrain) | [![Google Drive](https://img.shields.io/badge/Google%20Drive-Atsisiųsti-4285F4?logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1SfwoCgMqmXMElCWbBUYf-nPkfzzZcsrG/view?usp=drive_link) |
-| AESOPAutoEncoder         | [![Google Drive](https://img.shields.io/badge/Google%20Drive-Atsisiųsti-4285F4?logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1eijc_brIDTgRJAUiN1QLbLEF3I40Wrn2/view?usp=drive_link) |
-| AESOPRealAutoEncoder     | [![Google Drive](https://img.shields.io/badge/Google%20Drive-Atsisiųsti-4285F4?logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1ZVwl0CRO8PVTJynF4WFDf9vws7fxupsp/view?usp=drive_link) |
+| Modelis                   | Atsisiųsti                                                                                                                                                                                               |
+|---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| HATx4 (ImageNet pretrain) | [![Google Drive](https://img.shields.io/badge/Google%20Drive-Atsisiųsti-4285F4?logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1SfwoCgMqmXMElCWbBUYf-nPkfzzZcsrG/view?usp=drive_link) |
+| AESOPAutoEncoder          | [![Google Drive](https://img.shields.io/badge/Google%20Drive-Atsisiųsti-4285F4?logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1eijc_brIDTgRJAUiN1QLbLEF3I40Wrn2/view?usp=drive_link) |
+| AESOPRealAutoEncoder      | [![Google Drive](https://img.shields.io/badge/Google%20Drive-Atsisiųsti-4285F4?logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1ZVwl0CRO8PVTJynF4WFDf9vws7fxupsp/view?usp=drive_link) |
 
 ### Originalūs modeliai
 
