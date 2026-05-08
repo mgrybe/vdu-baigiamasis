@@ -2,6 +2,7 @@
 
 [![Demo](https://img.shields.io/badge/Demo-Gyvai-brightgreen)](https://mgrybe.github.io/vdu-baigiamasis/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub](https://img.shields.io/badge/GitHub-BasicSR-181717?logo=github&logoColor=white)](https://github.com/xpixelgroup/basicsr)
 [![GitHub](https://img.shields.io/badge/GitHub-HAT-181717?logo=github&logoColor=white)](https://github.com/xpixelgroup/hat)
 [![GitHub](https://img.shields.io/badge/GitHub-AESOP-181717?logo=github&logoColor=white)](https://github.com/2minkyulee/AESOP-SR)
 
