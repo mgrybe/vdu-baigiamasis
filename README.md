@@ -94,6 +94,18 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
+## Modelio mokymas
+
+```bash
+python train.py -opt options/train/hat_realesrgan_unet_aesop_perception.yml
+```
+
+## Modelio testavimas
+
+```bash
+python train.py -opt options/test/hat_realesrgan_unet_aesop_perception.yml
+```
+
 ## Literatūra
 
 [1] G. M. James, “Variance and Bias for General Loss Functions,” *Machine Learning*, vol. 51, pp. 115–135,
