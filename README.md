@@ -7,7 +7,7 @@
 [![GitHub](https://img.shields.io/badge/GitHub-AESOP-181717?logo=github&logoColor=white)](https://github.com/2minkyulee/AESOP-SR)
 
 Šioje repozitorijoje pateikiamas magistro baigiamojo darbo **„Suvokiamos kokybės optimizavimas vieno vaizdo raiškos
-didinimo uždaviniuose, integruojant HAT  architektūrą bei kombinuotas nuostolių funkcijas“** (autorius Marius Grybė,
+didinimo uždaviniuose, integruojant HAT architektūrą bei kombinuotas nuostolių funkcijas“** (autorius Marius Grybė,
 Vytauto Didžiojo universitetas) programinis kodas ir tyrimų duomenys.
 
 ## Santrauka
@@ -33,7 +33,8 @@ Vytauto Didžiojo universitetas) programinis kodas ir tyrimų duomenys.
 
 ## Rezultatai
 
-Žemiau pateikiamas originalaus HAT metodo ir eksperimento metu patobulinto „RealHATGAN (sharper)“ modelio rezultatų palyginimas.
+Žemiau pateikiamas originalaus HAT metodo ir eksperimento metu patobulinto „RealHATGAN (sharper)“ modelio rezultatų
+palyginimas.
 
 ![Canon 017](demo/images/comparison/Canon_017.png)
 ![Canon 005](demo/images/comparison/Canon_005.png)
@@ -45,6 +46,14 @@ Vytauto Didžiojo universitetas) programinis kodas ir tyrimų duomenys.
 |-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 1. RealHATGAN           | [![Atidaryti „Google Colab“](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1a-WJEwcxvwT7SMlxyIVb9Zduoc62bD5r?usp=sharing) |
 | 2. RealHATGAN (sharper) | [![Atidaryti „Google Colab“](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1IaO6IhEAneunY1RzbUW4dZG2gD6yaUCV?usp=sharing) |
+
+## Duomenų rinkiniai
+
+| Duomenų rinkinys           | Atsisiųsti                                                                                                                                                                                               |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| train-df2k.h5 (mokymui)    | [![Google Drive](https://img.shields.io/badge/Google%20Drive-Atsisiųsti-4285F4?logo=googledrive&logoColor=white)](https://drive.google.com/file/d/17MNSnRSwXu_85Yd6XKPhkCD3LmK4bGBq/view?usp=drive_link) |
+| test-sisr.h5  (testavimui) | [![Google Drive](https://img.shields.io/badge/Google%20Drive-Atsisiųsti-4285F4?logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1PcDZOp4KYCl7OgQbVme2P3PgZ-OqKJFa/view?usp=drive_link) |
+| RealSR v3     (testavimui) | [![Kaggle](https://img.shields.io/badge/Kaggle-RealSR%20v3-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/datasets/yashchoudhary/realsr-v3)                                                 |
 
 ## Apmokyti modeliai
 
@@ -97,13 +106,13 @@ pip install -r requirements.txt
 ## Modelio mokymas
 
 ```bash
-python train.py -opt options/train/hat_realesrgan_unet_aesop_perception.yml
+python train.py -opt options/train/real-hatgan/hat_realesrgan_unet_aesop_perception.yml
 ```
 
 ## Modelio testavimas
 
 ```bash
-python train.py -opt options/test/hat_realesrgan_unet_aesop_perception.yml
+python train.py -opt options/test/real-hatgan/hat_realesrgan_unet_aesop_perception.yml
 ```
 
 ## Literatūra
